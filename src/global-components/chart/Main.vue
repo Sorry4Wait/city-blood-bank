@@ -73,7 +73,6 @@
         if (props.refKey) {
             const bind = inject(`bind[${props.refKey}]`);
             if (bind) {
-                console.log(chartRef.value)
                 bind(chartRef.value);
             }
         }
