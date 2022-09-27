@@ -2,6 +2,9 @@ import { createRouter, createWebHistory } from "vue-router";
 import SideMenu from "../layouts/side-menu/Main.vue";
 import SimpleMenu from "../layouts/simple-menu/Main.vue";
 import TopMenu from "../layouts/top-menu/Main.vue";
+import AdminUser from "../views/app-components/Admin/User/index.vue"
+import AdminRole from "../views/app-components/Admin/Role/index.vue"
+import AdminDepartment from "../views/app-components/Admin/Department/index.vue"
 import DashboardOverview1 from "../views/dashboard-overview-1/Main.vue";
 import DashboardOverview2 from "../views/dashboard-overview-2/Main.vue";
 import DashboardOverview3 from "../views/dashboard-overview-3/Main.vue";
@@ -77,6 +80,21 @@ const routes = [
     path: "/",
     component: SideMenu,
     children: [
+      {
+        path: "admin-user",
+        name: "side-menu-admin-user",
+        component: AdminUser,
+      },
+      {
+        path: "admin-role",
+        name: "side-menu-admin-role",
+        component: AdminRole,
+      },
+      {
+        path: "admin-department",
+        name: "side-menu-admin-department",
+        component: AdminDepartment,
+      },
       {
         path: "dashboard-overview-1",
         name: "side-menu-dashboard-overview-1",

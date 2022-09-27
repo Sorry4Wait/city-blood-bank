@@ -10,7 +10,7 @@
         <ul>
           <!-- BEGIN: First Child -->
           <template v-for="(menu, menuKey) in formattedMenu">
-            <li
+           <li
               v-if="menu == 'devider'"
               :key="menu + menuKey"
               class="side-nav__devider my-6"
@@ -65,7 +65,7 @@
                       @click="linkTo(subMenu, router, $event)"
                     >
                       <div class="side-menu__icon">
-                        <ActivityIcon />
+                        <component :is="subMenu.icon" />
                       </div>
                       <div class="side-menu__title">
                         {{ subMenu.title }}
