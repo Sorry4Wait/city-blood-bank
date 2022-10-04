@@ -74,12 +74,18 @@ import Validation from "../views/validation/Main.vue";
 import Chart from "../views/chart/Main.vue";
 import Slider from "../views/slider/Main.vue";
 import ImageZoom from "../views/image-zoom/Main.vue";
+import AuthItem from "../views/app-components/Admin/auth-item/index.vue"
 
 const routes = [
   {
     path: "/",
     component: SideMenu,
     children: [
+      {
+        path: "admin/auth-item",
+        name: "side-menu-auth-item",
+        component: AuthItem,
+      },
       {
         path: "admin-user",
         name: "side-menu-admin-user",

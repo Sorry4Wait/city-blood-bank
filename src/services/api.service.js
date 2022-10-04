@@ -30,11 +30,11 @@ const ApiService = {
     },
 
     post(resource, data) {
-        return axios.post(resource, data,
-            {
-                withCredentials: true
-            })
-        // return axios.post(resource, data)
+        // return axios.post(resource, data,
+        //     {
+        //         withCredentials: true
+        //     })
+         return axios.post(resource, data)
     },
     postFile(resource, data) {
         return axios.post(resource, data,

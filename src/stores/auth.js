@@ -49,27 +49,26 @@ export const auth = defineStore("auth", {
 
         async login({username, password}) {
             loginRequest(this);
-            router.push('/');
 
-            // try {
-            //     const data = await UserService.login(username, password);
-            //     mutations.loginSuccess(data).bind(this);
-            //
-            //     // Redirect the user to the page he first tried to visit or to the home view
-            //     router.push(router.history.current.query.redirect || '/');
-            //
-            //     return true
-            // } catch (e) {
-            //     if (e instanceof AuthenticationError) {
-            //         mutations.loginError({
-            //             errorCode: e.errorCode,
-            //             errorMessage: e.message,
-            //             arrayOfMessage: e.arrayOfMessage
-            //         }).bind(this)
-            //     }
-            //
-            //     return false
-            // }
+            try {
+                const data = await UserService.login(username, password);
+                loginSuccess(this,data)
+                // Redirect the user to the page he first tried to visit or to the home view
+                //router.push(router.history.current.query.redirect || '/');
+                router.push('/');
+                return true
+            } catch (e) {
+                console.log(e)
+                // if (e instanceof AuthenticationError) {
+                //     mutations.loginError({
+                //         errorCode: e.errorCode,
+                //         errorMessage: e.message,
+                //         arrayOfMessage: e.arrayOfMessage
+                //     }).bind(this)
+                // }
+
+                return false
+            }
         },
 
 
@@ -84,17 +83,23 @@ export const auth = defineStore("auth", {
 const loginRequest = (vm) => {
     vm.authenticating = true;
     vm.authenticationError = '';
-    vm.rules = [
-        {
-            action: "canUpdatePost",
-            subject: "perm"
-        },
-        {
-            action: "canUpdateComment",
-            subject: "perm"
-        }
-    ];
+    // vm.rules = [
+    //     {
+    //         action: "canUpdatePost",
+    //         subject: "perm"
+    //     },
+    //     {
+    //         action: "canUpdateComment",
+    //         subject: "perm"
+    //     }
+    // ];
     vm.authenticationErrorCode = 0
+};
+const  loginSuccess = (vm,data) =>
+{
+    vm.accessToken = data.result.access_token;
+    vm.UserInfo = data.result.user;
+    vm.authenticating = false;
 };
 const mutations = {
 
@@ -102,20 +107,23 @@ const mutations = {
         this.UserInfo = data;
     },
     loginSuccess(data) {
-        this.accessToken = data.token;
-        this.permissions = data.userInfo.modules;
-        this.UserInfo = data.userInfo;
-        let formattedRules = [];
-        if (data.userInfo.modules.length > 0) {
-            formattedRules = data.userInfo.modules.map(perm => {
-                let formattedObj = {};
-                formattedObj.action = perm;
-                formattedObj.subject = 'permissions'
-                return formattedObj;
-            })
-        }
-        this.rules = formattedRules;
+        this.accessToken = data.result.access_token;
+        this.UserInfo = data.result.user;
         this.authenticating = false;
+        // this.accessToken = data.token;
+        // this.permissions = data.userInfo.modules;
+        // this.UserInfo = data.userInfo;
+        // let formattedRules = [];
+        // if (data.userInfo.modules.length > 0) {
+        //     formattedRules = data.userInfo.modules.map(perm => {
+        //         let formattedObj = {};
+        //         formattedObj.action = perm;
+        //         formattedObj.subject = 'permissions'
+        //         return formattedObj;
+        //     })
+        // }
+        // this.rules = formattedRules;
+        // this.authenticating = false;
     },
 
     loginError({errorCode, errorMessage, arrayOfMessage}) {
