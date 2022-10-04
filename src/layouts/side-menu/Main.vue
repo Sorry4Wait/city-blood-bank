@@ -1,7 +1,7 @@
 <template>
   <div class="py-5 md:py-0">
     <DarkModeSwitcher />
-    <MainColorSwitcher />
+<!--    <MainColorSwitcher />-->
     <MobileMenu />
     <TopBar />
     <div class="flex overflow-hidden z-50">
@@ -18,7 +18,7 @@
             <li v-else :key="menu + menuKey">
               <SideMenuTooltip
                 tag="a"
-                :content="menu.title"
+                :content="$t(menu.title)"
                 :href="
                   menu.subMenu
                     ? 'javascript:;'
@@ -35,7 +35,7 @@
                   <component :is="menu.icon" />
                 </div>
                 <div class="side-menu__title">
-                  {{ menu.title }}
+                  {{ $t(menu.title) }}
                   <div
                     v-if="menu.subMenu"
                     class="side-menu__sub-icon"
@@ -154,10 +154,10 @@ const formattedMenu = ref([]);
 const sideMenuStore = useSideMenuStore();
 const sideMenu = computed(() => nestedMenu(sideMenuStore.menu, route));
 
-// provide("forceActiveMenu", (pageName) => {
-//   route.forceActiveMenu = pageName;
-//   formattedMenu.value = $h.toRaw(sideMenu.value);
-// });
+provide("forceActiveMenu", (pageName) => {
+  route.forceActiveMenu = pageName;
+  formattedMenu.value = $h.toRaw(sideMenu.value);
+});
 
 watch(
   computed(() => route.path),
