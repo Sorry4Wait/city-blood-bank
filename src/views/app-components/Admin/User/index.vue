@@ -218,11 +218,12 @@
     <ModalBody class="p-0">
       <div class="p-5 text-start">
         <h5 class="text-center">Edit User!!</h5>
-        <label>Name: <input class="form-control my-1" type="text" :placeholder="selectedUser.name"/></label>
-        <label>User Name:  <input class="form-control my-1" type="text" :placeholder="selectedUser.username" /></label>
-        <label>Email: <input type="number" class="form-control my-1" :placeholder="selectedUser.email" /></label>
-        <label>Phone: <input type="number" class="form-control my-1" :placeholder="selectedUser.phone" /></label>
+        <label>Name: <input class="form-control my-1" type="text"   v-model="newUser" :placeholder="selectedUser.name"/></label>
+        <label>User Name:  <input class="form-control my-1" type="text" v-model="newUser" :placeholder="selectedUser.username" /></label>
+        <label>Email: <input type="number" class="form-control my-1" v-model="newUser" :placeholder="selectedUser.email" /></label>
+        <label>Phone: <input type="number" class="form-control my-1"  v-model="newUser" :placeholder="selectedUser.phone" /></label>
       </div>
+      {{newUser}}
       <div class="px-5 pb-8 text-center">
         <button
             type="button"
@@ -239,20 +240,24 @@
 
 <script setup>
 import { ref,onMounted,computed,reactive } from "vue";
+import UserService from '@/services/user.service';
 
 const deleteConfirmationModal = ref(false);
 const editModal = ref(false)
 let tableList = ref([])
 const selectedUser = ref({});
-const tableList2 = computed(() => tableList)
-async function  getUserList(){
- await  fetch('https://jsonplaceholder.typicode.com/users')
-      .then(response => response.json())
-      .then(json => {
-        tableList.value = json;
-          }
-      )
+const tableList2 = computed(() => tableList);
+const newUser = {}
+
+ async function  getUserList(){
+  try {
+    let response = await UserService.getRoleList();
+    tableList.value = response.data.result;
+  } catch (e){
+
+  }
 }
+
 function editUser(oneUser){
   console.log(oneUser)
   selectedUser.value = oneUser;
@@ -261,7 +266,7 @@ function editUser(oneUser){
 
 }
 onMounted(() => {
-  getUserList();
+  // getUserList();
 })
 
 </script>

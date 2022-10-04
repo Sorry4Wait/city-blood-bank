@@ -60,7 +60,9 @@ const UserService = {
         }
     },
 
-
+    getRoleList: async function(){
+        return ApiService.get("/role/list");
+    },
     loginByToken(token) {
         TokenService.saveToken(token)
         ApiService.setHeader()
