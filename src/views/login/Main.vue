@@ -11,7 +11,7 @@
                                 class="w-6"
                                 src="@/assets/images/logo.svg"
                         />
-                        <span class="text-white text-lg ml-3"> Enigma </span>
+<!--                        <span class="text-white text-lg ml-3"> Enigma </span>-->
                     </a>
                     <div class="my-auto">
                         <img
@@ -19,17 +19,17 @@
                                 class="-intro-x w-1/2 -mt-16"
                                 src="@/assets/images/illustration.svg"
                         />
-                        <div
-                                class="-intro-x text-white font-medium text-4xl leading-tight mt-10"
-                        >
-                            A few more clicks to <br/>
-                            sign in to your account.
-                        </div>
-                        <div
-                                class="-intro-x mt-5 text-lg text-white text-opacity-70 dark:text-slate-400"
-                        >
-                            Manage all your e-commerce accounts in one place
-                        </div>
+<!--                        <div-->
+<!--                                class="-intro-x text-white font-medium text-4xl leading-tight mt-10"-->
+<!--                        >-->
+<!--                            A few more clicks to <br/>-->
+<!--                            sign in to your account.-->
+<!--                        </div>-->
+<!--                        <div-->
+<!--                                class="-intro-x mt-5 text-lg text-white text-opacity-70 dark:text-slate-400"-->
+<!--                        >-->
+<!--                            Manage all your e-commerce accounts in one place-->
+<!--                        </div>-->
                     </div>
                 </div>
                 <!-- END: Login Info -->
@@ -50,11 +50,13 @@
                         <div class="intro-x mt-8">
                             <input
                                     type="text"
+                                    v-model="username"
                                     class="intro-x login__input form-control py-3 px-4 block"
                                     placeholder="Email"
                             />
                             <input
                                     type="password"
+                                    v-model="password"
                                     class="intro-x login__input form-control py-3 px-4 block mt-4"
                                     placeholder="Password"
                             />
@@ -107,14 +109,15 @@
 </template>
 
 <script setup>
-    import {computed, onMounted} from "vue";
+    import {computed, onMounted,ref} from "vue";
     import {auth} from "@/stores/auth";
     import dom from "@left4code/tw-starter/dist/js/dom";
 
-
+    const username = ref("developer");
+    const password = ref("devel0per");
     const authUser = auth();
     const login = () => {
-        authUser.login({Username: "qwe", Password: "qwe"});
+        authUser.login({username:username.value, password:password.value});
     };
 
     onMounted(() => {
