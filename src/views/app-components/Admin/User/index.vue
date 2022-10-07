@@ -4,7 +4,7 @@
     <div
         class="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2"
     >
-      <button class="btn btn-primary shadow-md mr-2">Add New Product</button>
+      <button class="btn btn-primary shadow-md mr-2" @click="addNewUser">Add New User</button>
       <Dropdown>
         <DropdownToggle class="btn px-2 box">
           <span class="w-5 h-5 flex items-center justify-center">
@@ -25,17 +25,13 @@
           </DropdownContent>
         </DropdownMenu>
       </Dropdown>
-      <div class="hidden md:block mx-auto text-slate-500">
-        Showing 1 to 10 of 150 entries
-      </div>
+<!--      <div class="hidden md:block mx-auto text-slate-500">-->
+<!--        Showing 1 to 10 of 150 entries-->
+<!--      </div>-->
       <div class="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
         <div class="w-56 relative text-slate-500">
-          <input
-              type="text"
-              class="form-control w-56 box pr-10"
-              placeholder="Search..."
-          />
-          <SearchIcon class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0" />
+          <input type="text" class="form-control w-56 box pr-10" placeholder="Search..."  v-model="filter.username"/>
+          <SearchIcon class="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0" @click="searchUser" />
         </div>
       </div>
     </div>
@@ -45,21 +41,23 @@
       <table class="table table-report -mt-2">
         <thead>
         <tr>
-          <th class="whitespace-nowrap">NAME</th>
+          <th class="whitespace-nowrap">№</th>
           <th class="whitespace-nowrap">USER NAME</th>
           <th class="text-center whitespace-nowrap">EMAIL</th>
-          <th class="text-center whitespace-nowrap">PHONE</th>
-          <th class="text-center whitespace-nowrap">ACTIONS</th>
+          <th class="text-center whitespace-nowrap">STATUS</th>
+          <th class="text-center whitespace-nowrap">CREATED AT</th>
+          <th class="text-center whitespace-nowrap">UPDATED AT</th>
+          <th class="text-center whitespace-nowrap"></th>
         </tr>
         </thead>
         <tbody>
         <tr
-            v-for="(user, index) in tableList"
-            :key="index"
+            v-for="user in tableList"
+            :key="user.id"
             class="intro-x"
         >
           <td class="w-40">
-            {{user.name}}
+            {{user.id}}
 <!--            <div class="flex">-->
 <!--              <div class="w-10 h-10 image-fit zoom-in">-->
 <!--                <Tippy-->
@@ -101,7 +99,7 @@
           </td>
           <td class="text-center">{{user.email}}</td>
           <td class="w-40">
-            {{user.phone}}
+            {{user.status}}
 <!--            <div-->
 <!--                class="flex items-center justify-center"-->
 <!--                :class="{-->
@@ -113,6 +111,9 @@
 <!--              {{ faker.trueFalse[0] ? "Active" : "Inactive" }}-->
 <!--            </div>-->
           </td>
+          <td>{{user.created_at}}</td>
+          <td>{{user.updated_at}}</td>
+          <td></td>
           <td class="table-report__action w-56">
             <div class="flex justify-center items-center">
               <a class="flex items-center mr-3" href="javascript:;"  @click="editUser(user)">
@@ -175,64 +176,64 @@
           </li>
         </ul>
       </nav>
-      <select class="w-20 form-select box mt-3 sm:mt-0">
-        <option>10</option>
-        <option>25</option>
-        <option>35</option>
-        <option>50</option>
-      </select>
+<!--      <select class="w-20 form-select box mt-3 sm:mt-0">-->
+<!--        <option>10</option>-->
+<!--        <option>25</option>-->
+<!--        <option>35</option>-->
+<!--        <option>50</option>-->
+<!--      </select>-->
     </div>
     <!-- END: Pagination -->
+
   </div>
   <!-- BEGIN: Delete Confirmation Modal -->
-  <Modal
-      :show="deleteConfirmationModal"
-      @hidden="deleteConfirmationModal = false"
-  >
-    <ModalBody class="p-0">
-      <div class="p-5 text-center">
-        <XCircleIcon class="w-16 h-16 text-danger mx-auto mt-3" />
-        <div class="text-3xl mt-5">Are you sure?</div>
-        <div class="text-slate-500 mt-2">
-          Do you really want to delete these User? <br />This process cannot
-          be undone.
-        </div>
-      </div>
-      <div class="px-5 pb-8 text-center">
-        <button
-            type="button"
-            @click="deleteConfirmationModal = false"
-            class="btn btn-outline-secondary w-24 mr-1"
-        >
-          Cancel
-        </button>
-        <button type="button" class="btn btn-danger w-24">Delete</button>
-      </div>
-    </ModalBody>
-  </Modal>
+<!--  <Modal-->
+<!--      :show="deleteConfirmationModal"-->
+<!--      @hidden="deleteConfirmationModal = false"-->
+<!--  >-->
+<!--    <ModalBody class="p-0">-->
+<!--      <div class="p-5 text-center">-->
+<!--        <XCircleIcon class="w-16 h-16 text-danger mx-auto mt-3" />-->
+<!--        <div class="text-3xl mt-5">Are you sure?</div>-->
+<!--        <div class="text-slate-500 mt-2">-->
+<!--          Do you really want to delete these User? <br />This process cannot-->
+<!--          be undone.-->
+<!--        </div>-->
+<!--      </div>-->
+<!--      <div class="px-5 pb-8 text-center">-->
+<!--        <button-->
+<!--            type="button"-->
+<!--            @click="deleteConfirmationModal = false"-->
+<!--            class="btn btn-outline-secondary w-24 mr-1"-->
+<!--        >-->
+<!--          Cancel-->
+<!--        </button>-->
+<!--        <button type="button" class="btn btn-danger w-24">Delete</button>-->
+<!--      </div>-->
+<!--    </ModalBody>-->
+<!--  </Modal>-->
   <!-- END: Delete Confirmation Modal -->
   <Modal
-      :show="editModal"
-      @hidden="editModal = false"
+      :show="addModal"
+      @hidden="addModal = false"
   >
+    <ModalHeader>New user</ModalHeader>
     <ModalBody class="p-0">
       <div class="p-5 text-start">
-        <h5 class="text-center">Edit User!!</h5>
-        <label>Name: <input class="form-control my-1" type="text"   v-model="newUser" :placeholder="selectedUser.name"/></label>
-        <label>User Name:  <input class="form-control my-1" type="text" v-model="newUser" :placeholder="selectedUser.username" /></label>
-        <label>Email: <input type="number" class="form-control my-1" v-model="newUser" :placeholder="selectedUser.email" /></label>
-        <label>Phone: <input type="number" class="form-control my-1"  v-model="newUser" :placeholder="selectedUser.phone" /></label>
+       <label>User Name:  <input class="form-control my-1" type="text" v-model="newUser.username"  /></label>
+        <label>Email: <input type="email" class="form-control my-1" v-model="newUser.email"  /></label>
+        <label>Status: <input type="number" class="form-control my-1"  v-model="newUser.status"  /></label>
+        <label>Password: <input type="password" class="form-control my-1"  v-model="newUser.password"  /></label>
       </div>
-      {{newUser}}
-      <div class="px-5 pb-8 text-center">
+       <div class="px-5 pb-8 text-center">
         <button
             type="button"
-            @click="editModal = false"
+            @click="toggleModal"
             class="btn btn-outline-secondary w-24 mr-1"
         >
           Cancel
         </button>
-        <button type="button" class="btn btn-primary w-24"  @click="editModal = false">Edit</button>
+        <button type="button" class="btn btn-primary w-24 mx-2"  @click="createUser(newUser)">SAVE</button>
       </div>
     </ModalBody>
   </Modal>
@@ -241,32 +242,70 @@
 <script setup>
 import { ref,onMounted,computed,reactive } from "vue";
 import UserService from '@/services/user.service';
+import {AdminUserService} from "@/services/user.service";
+import {useRouter} from "vue-router";
 
-const deleteConfirmationModal = ref(false);
-const editModal = ref(false)
+
+const filter = reactive({id:'', username:'', email:'', status:''})
+const addModal = ref(false)
 let tableList = ref([])
-const selectedUser = ref({});
-const tableList2 = computed(() => tableList);
-const newUser = {}
+const route = useRouter()
+const newUser = reactive({
+  username:'',
+  email:'',
+  status:'',
+  password:'',
+  auth_items:[]
+})
+// const deleteConfirmationModal = ref(false);
 
- async function  getUserList(){
-  try {
-    let response = await UserService.getRoleList();
-    tableList.value = response.data.result;
-  } catch (e){
-
-  }
+function addNewUser(){
+ addModal.value = true;
+}
+function toggleModal(){
+  addModal.value=false;
+  Object.assign(newUser, {
+    username:'',
+    email:'',
+    status:'',
+    password:'',
+    auth_items:[]
+  })
 }
 
-function editUser(oneUser){
-  console.log(oneUser)
-  selectedUser.value = oneUser;
-  console.log(selectedUser)
-  editModal.value = true;
+
+function editUser(oneUser) {
+ route.push(`/admin/edit-user/${oneUser.id}`)
 
 }
-onMounted(() => {
-  // getUserList();
+async function searchUser(){
+  try{
+   let response = await AdminUserService.searchUser(filter);
+    tableList.value = response.data.result.items;
+   }catch(e){
+    console.log(e)
+  }}
+
+async function createUser(newUser){
+    try {
+      let response = await AdminUserService.create(newUser);
+      if(response.data.status < 300 && response.data.status > 200){
+        // Success Toaster
+        await searchUser();
+      }else{
+        // Error Toaster
+      }
+     toggleModal()
+    } catch (e){
+      console.log(e)
+    }
+}
+
+
+onMounted(async () => {
+
+  await searchUser();
+
 })
 
 </script>

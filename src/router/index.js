@@ -3,6 +3,7 @@ import SideMenu from "../layouts/side-menu/Main.vue";
 import SimpleMenu from "../layouts/simple-menu/Main.vue";
 import TopMenu from "../layouts/top-menu/Main.vue";
 import AdminUser from "../views/app-components/Admin/User/index.vue"
+import EditUser from "../views/app-components/Admin/User/editUser.vue"
 import AdminRole from "../views/app-components/Admin/Role/index.vue"
 import AdminDepartment from "../views/app-components/Admin/Department/index.vue"
 import DashboardOverview1 from "../views/dashboard-overview-1/Main.vue";
@@ -85,6 +86,10 @@ const routes = [
         path: "admin/auth-item",
         name: "side-menu-auth-item",
         component: AuthItem,
+      },
+      { path: "admin/edit-user/:id",
+        name: "admin/editUser",
+        component: EditUser,
       },
       {
         path: "admin-user",
@@ -433,6 +438,7 @@ const routes = [
       },
     ],
   },
+
   {
     path: "/simple-menu",
     component: SimpleMenu,

@@ -127,7 +127,22 @@ const UserService = {
 
     }
 }
+  const AdminUserService ={
+     searchUser:async (filter) => {
+         return ApiService.get (`/admin/user/search?id=${filter.id}&username=${filter.username}&email=${filter.email}&status=${filter.status}`);
+    },
+      getById: async (id) => {
+          return ApiService.get(`/admin/user/get-by-id?id=${id}`);
+      },
+      create: async (data) => {
+          return ApiService.post('/admin/user/create', data);
+      },
+      update: async (data) => {
+          return ApiService.put(`/admin/user/update?id=${data.id}`, data);
+      }
+  }
+
 
 export default UserService
 
-export {UserService, AuthenticationError}
+export {UserService, AuthenticationError, AdminUserService}
